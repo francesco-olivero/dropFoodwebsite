@@ -16,8 +16,10 @@ from modelDB import User
 def create_db():
     db.drop_all()
     db.create_all()
+    admin = User(username='admin', email='admin@example.com')
     jack = User(username='jack', email='jack000@example.com')
     fra = User(username='fra', email='fra@example.com')
+    db.session.add(admin)
     db.session.add(jack)
     db.session.add(fra)
     db.session.commit()
