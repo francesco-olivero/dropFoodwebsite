@@ -6,22 +6,18 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'utenti.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'dropFood.db')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
-from modelDB import User
+from modelDB import User, Boxes, Ordini
 
 @app.before_first_request
 def create_db():
     db.drop_all()
     db.create_all()
-    admin = User(username='admin', email='admin@example.com')
-    jack = User(username='jack', email='jack000@example.com')
-    fra = User(username='fra', email='fra@example.com')
+    admin = User(username='admin', email='admin@example.com', password='mia', name='aaa', surname='ooo')
     db.session.add(admin)
-    db.session.add(jack)
-    db.session.add(fra)
     db.session.commit()
 
 @app.route('/')
