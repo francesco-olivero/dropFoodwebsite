@@ -7,8 +7,11 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    name = db.Column(db.String(30), nullable=False)
-    surname = db.Column(db.String(30), nullable=False)
+    first_name = db.Column(db.String(30), nullable=False)
+    last_name = db.Column(db.String(30), nullable=False)
+    birthday = db.Column(db.Integer, nullable=True)
+    phone = db.Column(db.Integer, nullable=True)
+    role = db.Column(db.String(20))  # gestore, utente, rider
 
 
 class Boxes(db.Model):
