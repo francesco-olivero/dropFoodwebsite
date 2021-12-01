@@ -19,11 +19,11 @@ from form import RegisterForm, LoginForm
 
 @app.before_first_request
 def create_db():
-    db.drop_all()
+    # db.drop_all()
     db.create_all()
-    admin = User(username='admin', email='a@example.com', password='pass', first_name='aaa', last_name='nnn', birthday=19990430, phone=3343445980, role='gestore')
-    db.session.add(admin)
-    db.session.commit()
+    # admin = User(username='admin', email='a@example.com', password='pass', first_name='aaa', last_name='nnn', birthday=19990430, phone=3343445980, role='gestore')
+    # db.session.add(admin)
+    # db.session.commit()
 
 
 @app.route('/')
@@ -84,7 +84,7 @@ def cambia():
     return render_template("cambia.html")
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('homepage'))
