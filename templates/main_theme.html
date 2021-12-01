@@ -11,6 +11,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
   </head>
 
   <body>
@@ -27,9 +28,6 @@
                 {% if not session.get('username') %}
                     <li><a href="/login">Login</a></li>
                 {% endif %}
-                {% if session.get('username') %}
-                    <li>utente: {{ session.get('username') }}</li>
-                {% endif %}
                 {% if not session.get('username') %}
                     <li><a href="/register">Register</a></li>
                 {% endif %}
@@ -41,15 +39,25 @@
                 {% if session.get('username') %}
                     <li><a href="/logout">Logout</a></li>
                 {% endif %}
-                <!-- <li><?php echo (isset($_SESSION["gestore"]) && $_SESSION["gestore"] === 1) ? "<a href=\"cambia.php\">CAMBIA</a>" : "<span class=\"disabledLink\">CAMBIA</span>"; ?></li> -->
-                <!-- <li><?php echo (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) ? "<span class=\"disabledLink\">LOGIN</span>" : "<a href=\"login.php\">LOGIN</a>"; ?></li> -->
-                <!-- <li><?php echo (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) ? "<a href=\"logout.php\">LOGOUT</a>" : "<span class=\"disabledLink\">LOGOUT</span>"; ?></li> -->
+                {% if session.get('username') %}
+                    <li>utente: {{ session.get('username') }}</li>
+                {% endif %}
             </ul>
         </nav>
     </div>
 
     <div id="content">
         <main>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class={{ category }}>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
             {% block content %}
             {% endblock content %}
         </main>
