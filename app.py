@@ -1,9 +1,10 @@
-from flask import Flask, redirect, flash
+from flask import Flask, redirect, flash, session
 from flask import render_template, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'dropFood.db')
@@ -11,25 +12,45 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SECRET_KEY'] = 'hard to guess'
 db = SQLAlchemy(app)
 
+
 from modelDB import User, Boxes, Ordini
-from form import RegisterForm
+from form import RegisterForm, LoginForm
+
 
 @app.before_first_request
 def create_db():
-    db.drop_all()
+    # db.drop_all()
     db.create_all()
-    admin = User(username='admin', email='a@example.com', password='pass', first_name='aaa', last_name='nnn', birthday=19990430, phone=3343445980, role='gestore')
-    db.session.add(admin)
-    db.session.commit()
+    # admin = User(username='admin', email='a@example.com', password='pass', first_name='aaa', last_name='nnn', birthday=19990430, phone=3343445980, role='gestore')
+    # db.session.add(admin)
+    # db.session.commit()
+
 
 @app.route('/')
+@app.route('/homepage')
 def main_page():
     # users = User.query.all()
     return render_template("index.html")
 
-@app.route('/login')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        password = form.password.data
+        if user is not None:
+            if user.password == password:
+                flash("Logged in")
+                session['username'] = user.username
+                session['role'] = user.role
+                session['id'] = user.id
+            else:
+                flash("password non corretta")
+        else:
+            flash("utente non registrato")
+    return render_template("login.html", form=form)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -46,13 +67,27 @@ def register():
         print(form.errors)
     return render_template("register.html", form=form)
 
+
 @app.route('/carrello')
 def carrello():
     return render_template("carrello.html")
 
+
 @app.route('/collabora')
 def collabora():
     return render_template("collabora.html")
+
+
+@app.route('/cambia')
+def cambia():
+    return render_template("cambia.html")
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('/homepage'))
+
 
 if __name__ == '__main__':
     app.run()

@@ -1,4 +1,23 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
+    <h1>Login</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <ul>
+            <li>{{ form.email.label }} {{ form.email() }}</li>
+            <li>{{ form.password.label }} {{ form.password() }}</li>
+            {{ form.hidden_tag() }}
+            <li>{{ form.submit() }}</li>
+        </ul>
+    </form>
 {% endblock content %}

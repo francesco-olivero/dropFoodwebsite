@@ -11,6 +11,12 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=1, max=20)])
     birthday = StringField('Birthday', validators=[DataRequired()])
     phone = StringField('Phone number', validators=[DataRequired(), Length(min=1, max=20)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Registrati')
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[Length(min=1, max=20), DataRequired()])
+    submit = SubmitField('Login')
 
 
