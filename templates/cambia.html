@@ -1,5 +1,17 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>Cambia</h1>
+    <h1>Cambia le quantita {{ session.get('username') }}</h1>
+    <h2>Elenco dei tuoi box in vendita:</h2>
+
+    <table>
+        <tr><th colspan="5">cambia la quantita</th></tr>
+        {% for Box in listaBox %}
+            <tr><td>{{ Box.boxName }}</td><td>{{ Box.labels }}</td><td>{{ Box.quantity }}</td><td>{{ Box.price }}</td><td>
+                {{ Box.description }}</td></tr>
+        {% endfor %}
+
+    </table>
+
+
 {% endblock content %}

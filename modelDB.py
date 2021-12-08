@@ -22,6 +22,7 @@ class Boxes(db.Model):
     foodOfferer = db.Column(db.String(50), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)  # per unit
+    description = db.Column(db.String, nullable=True)
 
 
 class Ordini(db.Model):

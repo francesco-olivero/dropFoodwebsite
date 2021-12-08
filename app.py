@@ -81,7 +81,13 @@ def collabora():
 
 @app.route('/cambia')
 def cambia():
-    return render_template("cambia.html")
+    listaBox = Boxes.query.filter_by(foodOfferer=session.get('username')).all()
+    return render_template("cambia.html", listaBox=listaBox)
+
+
+@app.route('/offerer1')
+def offerer1():
+    return render_template("offerer1.html")
 
 
 @app.route('/logout')
