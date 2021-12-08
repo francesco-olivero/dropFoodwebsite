@@ -24,6 +24,9 @@ class Boxes(db.Model):
     price = db.Column(db.Float, nullable=False)  # per unit
     description = db.Column(db.String, nullable=True)
 
+    def setQuantity(self, qty):
+        self.quantity = int(qty);
+
 
 class Ordini(db.Model):
     __tablename__ = "ordini"

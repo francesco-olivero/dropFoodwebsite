@@ -1,17 +1,15 @@
-from flask import Flask, redirect, flash, session
+from flask import Flask, redirect, flash, session, request
 from flask import render_template, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'dropFood.db')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SECRET_KEY'] = 'hard to guess'
 db = SQLAlchemy(app)
-
 
 from modelDB import User, Boxes, Ordini
 from form import RegisterForm, LoginForm
@@ -83,6 +81,15 @@ def collabora():
 def cambia():
     listaBox = Boxes.query.filter_by(foodOfferer=session.get('username')).all()
     return render_template("cambia.html", listaBox=listaBox)
+
+
+@app.route('/handleCambia', methods=['POST'])
+def handleCambia():
+    for key, value in request.form.getlist(['quantita[]']):
+        if value != '':
+            box = Boxes.query.filter_by(id=key).first()
+            box.setQuantity(value)
+            return redirect(url_for('cambia'))
 
 
 @app.route('/offerer1')
