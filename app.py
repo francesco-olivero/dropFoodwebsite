@@ -67,11 +67,6 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route('/carrello')
-def carrello():
-    return render_template("carrello.html")
-
-
 @app.route('/collabora')
 def collabora():
     return render_template("collabora.html")
@@ -94,10 +89,28 @@ def handleCambia():
         return redirect(url_for('cambia'))
 
 
-
 @app.route('/offerer1')
 def offerer1():
-    return render_template("offerer1.html")
+    listaBox = Boxes.query.filter_by(foodOfferer='offerer1').all()
+    return render_template("offerer1.html", listaBox=listaBox)
+
+
+@app.route('/handleConcludi', methods=['POST'])
+def handleConcludi():
+    costTot = 0
+    for key in request.form.iterkeys():
+        if not key.isdigit() or not request.form[key].isdigit():
+                continue
+        value = int(request.form[key])
+        box = Boxes.query.filter_by(id=int(key)).first()
+        box.setQuantity(box.quantity - value)
+        costTot += value * box.price
+    return render_template("conferma.html", costTot=costTot)
+
+
+# @app.route('/conferma')
+# def conferma():
+ #    return render_template("conferma.html", costTot=costTot)
 
 
 @app.route('/logout')
