@@ -25,7 +25,7 @@ class Boxes(db.Model):
     description = db.Column(db.String, nullable=True)
 
     def setQuantity(self, qty):
-        self.quantity = int(qty);
+        self.quantity = int(qty)
 
 
 class Ordini(db.Model):

@@ -9,7 +9,7 @@
             <tr><th colspan="5">cambia la quantita</th></tr>
             {% for Box in listaBox %}
                 <tr><td>{{ Box.boxName }}</td><td>{{ Box.labels }}</td><td>{{ Box.quantity }}</td><td>{{ Box.price }}</td><td>
-                    {{ Box.description }}</td><td><input type='text' name='quantita[{{ Box.id }}]' value=''></td><td><input type="submit" name='submit[{{ Box.id }}]' value="Aggiorna prodotto"></td></tr>
+                    {{ Box.description }}</td><td><input type='text' name='{{ Box.id }}' value=''></td><td><input type="submit" name='submit[{{ Box.id }}]' value="Aggiorna prodotto"></td></tr>
             {% endfor %}
 
         </table>

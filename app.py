@@ -85,11 +85,14 @@ def cambia():
 
 @app.route('/handleCambia', methods=['POST'])
 def handleCambia():
-    for key, value in request.form.getlist(['quantita[]']):
-        if value != '':
-            box = Boxes.query.filter_by(id=key).first()
-            box.setQuantity(value)
-            return redirect(url_for('cambia'))
+    for key in request.form.iterkeys():
+        if not key.isdigit() or not request.form[key].isdigit():
+                continue
+        value = int(request.form[key])
+        box = Boxes.query.filter_by(id=int(key)).first()
+        box.setQuantity(value)
+        return redirect(url_for('cambia'))
+
 
 
 @app.route('/offerer1')
