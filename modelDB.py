@@ -1,5 +1,5 @@
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from app import db
 
@@ -14,6 +14,9 @@ class User(db.Model):
     address = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
+    userBoxes = db.relationship('Box', backref='offerer')  # 1 to many
+    userOrders = db.relationship('Order', backref='user')  # 1 to many
+
 
 class Box(db.Model):
     __tablename__ = "boxes"
@@ -25,6 +28,8 @@ class Box(db.Model):
     price = db.Column(db.Float, nullable=False)  # per unit
     description = db.Column(db.String, nullable=True)
 
+    contenuto = db.relationship('OrderDetails', backref='box')  # 1 to many
+
     def setQuantity(self, qty):
         self.quantity = int(qty)
 
@@ -35,7 +40,7 @@ class Order(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))  # foreignKey
     totPrice = db.Column(db.Float, nullable=False)
 
-    user = relationship("User")
+    con = db.relationship('OrderDetails', backref='order')  # 1 to many
 
 
 class OrderDetails(db.Model):
@@ -45,6 +50,3 @@ class OrderDetails(db.Model):
     orderId = db.Column(db.Integer, db.ForeignKey('orders.id'))  # foreignKey
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-
-    order = relationship("Order")
-    boxes = relationship('Box')
