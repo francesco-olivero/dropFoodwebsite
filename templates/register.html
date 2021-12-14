@@ -7,11 +7,9 @@
         <ul>
             <li>{{ form.first_name.label }} {{ form.first_name() }}</li>
             <li>{{ form.last_name.label }} {{ form.last_name() }}</li>
-            <li>{{ form.username.label }} {{ form.username() }}</li>
             <li>{{ form.email.label }} {{ form.email() }}</li>
             <li>{{ form.password.label }} {{ form.password() }}</li>
-            <li>{{ form.birthday.label }} {{ form.birthday() }}</li>
-            <li>{{ form.phone.label }} {{ form.phone() }}</li>
+            <li>{{ form.address.label }} {{ form.address() }}</li>
             {{ form.hidden_tag() }}
             <li>{{ form.submit() }}</li>
         </ul>

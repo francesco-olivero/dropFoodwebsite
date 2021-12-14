@@ -1,14 +1,15 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>food offerer 1 menu</h1>
+    <h1>Carrefour menu</h1>
 
     <form action="/handleConcludi" method="post">
         <table>
-            <tr><td>Box</td><td>caratteristiche</td><td>qty</td><td>prezzo</td><td>descrizione</td><td>seleziona la quantita</td></tr>
+            <tr><td>Box</td><td>labels</td><td>quantità</td><td>prezzo</td><td>descrizione</td>{% if session.get('email') %}<td>seleziona la quantità</td>{% endif %}</tr>
             {% for Box in listaBox %}
                 <tr><td>{{ Box.boxName }}</td><td>{{ Box.labels }}</td><td>{{ Box.quantity }}</td><td>{{ Box.price }}</td><td>
                     {{ Box.description }}</td>
+                {% if session.get('email') %}
                     <td>
                         <select name='{{ Box.id }}'>
                             {% for i in range(Box.quantity + 1) %}
@@ -16,8 +17,9 @@
                             {% endfor %}
                         </select>
                     </td></tr>
+                {% endif %}
             {% endfor %}
-            <tr><td><input type="submit" value="Concludi l'ordine"></td></tr>
+            {% if session.get('email') %}<tr><td><input type="submit" value="Concludi l'ordine"></td>{% endif %}</tr>
         </table>
     </form>
 {% endblock content %}

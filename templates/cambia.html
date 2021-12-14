@@ -1,7 +1,7 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>Cambia le quantita {{ session.get('username') }}</h1>
+    <h1>Cambia le quantita {{ session.get('email') }}</h1>
     <h2>Elenco dei tuoi box in vendita:</h2>
 
     <form action="/handleCambia" method="post">

@@ -26,23 +26,23 @@
         <nav>
             <ul>
                 <li><a href=/homepage>Home</a></li>
-                {% if not session.get('username') %}
+                {% if not session.get('email') %}
                     <li><a href="/login">Login</a></li>
                 {% endif %}
-                {% if not session.get('username') %}
+                {% if not session.get('email') %}
                     <li><a href="/register">Registrati</a></li>
                 {% endif %}
-                {% if session.get('role')!='gestore' %}
+                {% if (session.get('email') and session.get('role')!='gestore') or not session.get('email') %}
                     <li><a href="/collabora">Collabora con noi</a></li>
                 {% endif %}
-                {% if session.get('role')=='gestore' %}
+                {% if session.get('email') and session.get('role')=='gestore' %}
                     <li><a href="/cambia">Cambia</a></li>
                 {% endif %}
-                {% if session.get('username') %}
+                {% if session.get('email') %}
                     <li><a href="/logout">Logout</a></li>
                 {% endif %}
-                {% if session.get('username') %}
-                    <li>utente: {{ session.get('username') }}</li>
+                {% if session.get('email') %}
+                    <li>utente: {{ session.get('email') }}</li>
                 {% endif %}
             </ul>
         </nav>

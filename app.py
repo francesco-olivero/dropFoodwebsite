@@ -6,12 +6,12 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'dropFood.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'dropFood3.db')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SECRET_KEY'] = 'hard to guess'
 db = SQLAlchemy(app)
 
-from modelDB import User, Boxes, Ordini
+from modelDB import Users, Boxes, Orders, OrderDetails
 from form import RegisterForm, LoginForm
 
 
@@ -19,15 +19,15 @@ from form import RegisterForm, LoginForm
 def create_db():
     # db.drop_all()
     db.create_all()
-    # admin = User(username='admin', email='a@example.com', password='pass', first_name='aaa', last_name='nnn', birthday=19990430, phone=3343445980, role='gestore')
+    # admin = Users(email='a@example.com', password='pass', first_name='aaa', last_name='nnn', address='via roma 34', role='gestore')
     # db.session.add(admin)
     # db.session.commit()
+
 
 
 @app.route('/')
 @app.route('/homepage')
 def homepage():
-    # users = User.query.all()
     return render_template("index.html")
 
 
@@ -35,9 +35,8 @@ def homepage():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        utente = User(username=form.username.data, email=form.email.data, password=form.password.data,
-                      first_name=form.first_name.data, last_name=form.last_name.data, birthday=form.birthday.data,
-                      phone=form.phone.data, role='utente')
+        utente = Users(email=form.email.data, password=form.password.data,
+                      first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, role='utente')
         db.session.add(utente)
         db.session.commit()
         flash("Your account has been created!", 'success')
@@ -51,11 +50,12 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(email=form.email.data).first()
         password = form.password.data
         if user is not None:
             if user.password == password:
-                session['username'] = user.username
+                session['email'] = user.email
+                session['address'] = user.address
                 session['role'] = user.role
                 session['id'] = user.id
                 flash("Logged in", 'success')
@@ -74,7 +74,7 @@ def collabora():
 
 @app.route('/cambia')
 def cambia():
-    listaBox = Boxes.query.filter_by(foodOfferer=session.get('username')).all()
+    listaBox = Boxes.query.filter_by(foodOfferer=session.get('id')).all()
     return render_template("cambia.html", listaBox=listaBox)
 
 
@@ -91,7 +91,7 @@ def handleCambia():
 
 @app.route('/offerer1')
 def offerer1():
-    listaBox = Boxes.query.filter_by(foodOfferer='offerer1').all()
+    listaBox = Boxes.query.filter_by(foodOfferer=3).all()
     return render_template("offerer1.html", listaBox=listaBox)
 
 
@@ -106,11 +106,6 @@ def handleConcludi():
         box.setQuantity(box.quantity - value)
         costTot += value * box.price
     return render_template("conferma.html", costTot=costTot)
-
-
-# @app.route('/conferma')
-# def conferma():
- #    return render_template("conferma.html", costTot=costTot)
 
 
 @app.route('/logout')
