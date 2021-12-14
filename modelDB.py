@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app import db
 
 
-class Users(db.Model):
+class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -30,7 +30,7 @@ class Users(db.Model):
         return self.role'''
 
 
-class Boxes(db.Model):
+class Box(db.Model):
     __tablename__ = "boxes"
     id = db.Column(db.Integer, primary_key=True)
     boxName = db.Column(db.String(30), unique=True, nullable=False)
@@ -44,13 +44,13 @@ class Boxes(db.Model):
         self.quantity = int(qty)
 
 
-class Orders(db.Model):
+class Order(db.Model):
     __tablename__ = "orders"
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))  # foreignKey
     totPrice = db.Column(db.Float, nullable=False)
 
-    user = relationship("Users")
+    user = relationship("User")
 
 
 class OrderDetails(db.Model):
@@ -61,5 +61,5 @@ class OrderDetails(db.Model):
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
-    order = relationship("Orders")
-    boxes = relationship('Boxes')
+    order = relationship("Order")
+    boxes = relationship('Box')

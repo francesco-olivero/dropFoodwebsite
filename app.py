@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SECRET_KEY'] = 'hard to guess'
 db = SQLAlchemy(app)
 
-from modelDB import Users, Boxes, Orders, OrderDetails
+from modelDB import User, Box, Order, OrderDetails
 from form import RegisterForm, LoginForm
 
 
@@ -19,7 +19,7 @@ from form import RegisterForm, LoginForm
 def create_db():
     # db.drop_all()
     db.create_all()
-    # admin = Users(email='a@example.com', password='pass', first_name='aaa', last_name='nnn', address='via roma 34', role='gestore')
+    # admin = User(email='a@example.com', password='pass', first_name='aaa', last_name='nnn', address='via roma 34', role='gestore')
     # db.session.add(admin)
     # db.session.commit()
 
@@ -35,7 +35,7 @@ def homepage():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        utente = Users(email=form.email.data, password=form.password.data,
+        utente = User(email=form.email.data, password=form.password.data,
                       first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, role='utente')
         db.session.add(utente)
         db.session.commit()
@@ -50,7 +50,7 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = Users.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         password = form.password.data
         if user is not None:
             if user.password == password:
@@ -74,7 +74,7 @@ def collabora():
 
 @app.route('/cambia')
 def cambia():
-    listaBox = Boxes.query.filter_by(foodOfferer=session.get('id')).all()
+    listaBox = Box.query.filter_by(foodOfferer=session.get('id')).all()
     return render_template("cambia.html", listaBox=listaBox)
 
 
@@ -84,27 +84,45 @@ def handleCambia():
         if not key.isdigit() or not request.form[key].isdigit():
                 continue
         value = int(request.form[key])
-        box = Boxes.query.filter_by(id=int(key)).first()
+        box = Box.query.filter_by(id=int(key)).first()
         box.setQuantity(value)
         return redirect(url_for('cambia'))
 
 
 @app.route('/offerer1')
 def offerer1():
-    listaBox = Boxes.query.filter_by(foodOfferer=3).all()
+    listaBox = Box.query.filter_by(foodOfferer=3).all()
     return render_template("offerer1.html", listaBox=listaBox)
 
 
 @app.route('/handleConcludi', methods=['POST'])
 def handleConcludi():
+    # calcolo costoTot ordine e aggiorno le quantita dei box
     costTot = 0
     for key in request.form.iterkeys():
         if not key.isdigit() or not request.form[key].isdigit():
                 continue
-        value = int(request.form[key])
-        box = Boxes.query.filter_by(id=int(key)).first()
+        value = int(request.form[key])  # quantita del box con id = int(key)
+        box = Box.query.filter_by(id=int(key)).first()
         box.setQuantity(box.quantity - value)
         costTot += value * box.price
+
+    # creo l'ordine e lo agggiungo al db
+    order = Order(userId=session.get('id'), totPrice=costTot)
+    db.session.add(order)
+    db.session.commit()
+
+    # creo un orderDetails per ogni box ordinato e lo aggiungo al db
+    for key in request.form.iterkeys():
+        if not key.isdigit() or not request.form[key].isdigit():
+                continue
+        value = int(request.form[key])
+        box = Box.query.filter_by(id=int(key)).first()
+        cost = value * box.price
+        orderDetails = OrderDetails(boxId=int(key), orderId=order.id, price=cost, quantity=value)
+        db.session.add(orderDetails)
+        db.session.commit()
+
     return render_template("conferma.html", costTot=costTot)
 
 
