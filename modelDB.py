@@ -14,21 +14,6 @@ class User(db.Model):
     address = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
-    '''def get_id(self):
-        return self.id
-
-    def get_username(self):
-        return self.username
-
-    def get_password(self):
-        return self.password
-
-    def get_address(self):
-        return self.address
-
-    def get_role(self):
-        return self.role'''
-
 
 class Box(db.Model):
     __tablename__ = "boxes"
