@@ -1,0 +1,8 @@
+{% extends "main_theme.html" %}
+
+{% block content %}
+    <h1>Conferma Ordine</h1>
+
+    <p>Grazie per aver effettuato l'ordine!</p>
+    <p>Il costo totale è di: {{ costTot }} e riceverai il tuo ordine all'indirizzo: {{ session.get('address') }}</p>
+{% endblock content %}
