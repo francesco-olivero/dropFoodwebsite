@@ -1,80 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="">
-    <meta name="description" content="">
-
-    <title>dropFood</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/CSS/style.css">
 
+    <title>Homepage</title>
   </head>
-
   <body>
-     <div id="header">
-        <header>
-           <h1>dropFood</h1>
-        </header>
-     </div>
 
-    <div id="nav">
-        <nav>
-            <ul>
-                <li><a href=/homepage>Home</a></li>
-                {% if not session.get('email') %}
-                    <li><a href="/login">Login</a></li>
-                {% endif %}
-                {% if not session.get('email') %}
-                    <li><a href="/register">Registrati</a></li>
-                {% endif %}
-                {% if (session.get('email') and session.get('role')!='gestore') or not session.get('email') %}
-                    <li><a href="/collabora">Collabora con noi</a></li>
-                {% endif %}
-                {% if session.get('email') and session.get('role')=='gestore' %}
-                    <li><a href="/cambia">Cambia</a></li>
-                {% endif %}
+      <!-- Sezione barra menu' -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container">
+         <a class="navbar-brand" href="/homepage"><img src="../static/images/Logo.svg"></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/homepage">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#servizi">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#clienti">Food Offerers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#collaborate">Collaborate with us</a>
+            </li>
+            {% if session.get('email') and session.get('role')=='gestore' %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/cambia">Cambia</a>
+                </li>
+            {% endif %}
+          </ul>
+         </div>
+         <div>
+             <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item">
+                    {% if not session.get('email') %}
+                      <a class="nav-link" href="/login">Login</a>
+                    {% endif %}
+                    {% if session.get('email') %}
+                      <a class="nav-link" href="#">utente: {{ session.get('email') }}</a>
+                    {% endif %}
+                </li>
                 {% if session.get('email') %}
-                    <li><a href="/logout">Logout</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                  </li>
                 {% endif %}
-                {% if session.get('email') %}
-                    <li>utente: {{ session.get('email') }}</li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+             </ul>
+         </div>
+        </div>
+      </nav>
 
+     
+    <!-- Content -->  
     <div id="content">
         <main>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class=flashes>
-                    {% for category, message in messages %}
-                        <li class={{ category }}>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-
             {% block content %}
             {% endblock content %}
         </main>
     </div>
 
-    <div id="footer">
-        <footer>
-            <p>Copyright &copy; foodDrop 2021</p>
-        </footer>
-    </div>
 
+      <!-- Footer -->
+      <footer class="foot">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 h-100 text-center text-lg-left">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item"><a href="#">About us</a></li>
+                        <li class="list-inline-item"><a href="#">Contact</a></li>
+                        <li class="list-inline-item"><a href="#">Term of Use</a></li>
+                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">© DROPFOOD, Inc. All rights reserved.</p>
+                </div>
+                <div class="col-lg-6 h-100 text-center text-lg-right">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3"><a href="#"><img src="../static/images/Social.png"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </footer>
+    
 
-    <!-- Bootstrap jQuery, Popper.js, JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
