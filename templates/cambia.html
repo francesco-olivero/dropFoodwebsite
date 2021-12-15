@@ -1,18 +1,55 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>Cambia le quantita {{ session.get('email') }}</h1>
-    <h2>Elenco dei tuoi box in vendita:</h2>
-
     <form action="/handleCambia" method="post">
-        <table>
-            <tr><th colspan="5">cambia la quantita</th></tr>
+        <div class="container">
+            <h2 class="mb-5">Cambia le quantità {{ session.get('email') }}</h2>
+            <div class="row text-center">
+                <div class="col-sm-2">
+                    <h2>Photo</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Nome</h2>
+                </div>
+                <div class="col-sm-3">
+                    <h2>Description</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Labels</h2>
+                </div>
+                <div class="col-sm-1">
+                    <h2>Price</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Quantity</h2>
+                </div>
+            </div>
             {% for Box in listaBox %}
-                <tr><td>{{ Box.boxName }}</td><td>{{ Box.labels }}</td><td>{{ Box.quantity }}</td><td>{{ Box.price }}</td><td>
-                    {{ Box.description }}</td><td><input type='text' name='{{ Box.id }}' value=''></td><td><input type="submit" name='submit[{{ Box.id }}]' value="Aggiorna prodotto"></td></tr>
+                <div class="row align-items-center text-center">
+                    <div class="col-sm-2">
+                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" src="">
+                    </div>
+                    <div class="col-sm-2">
+                        <p>{{ Box.boxName }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <p class="font-weight-light">{{ Box.description }}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="font-weight-light">{{ Box.labels }}</p>
+                    </div>
+                    <div class="col-sm-1">
+                        <p class="font-weight-light">{{ Box.price }}</p>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type='text' name='{{ Box.id }}' placeholder="Qty" class="form-control my-2" value=''>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="submit" name='submit[{{ Box.id }}]' value="Update" class="btn1">
+                    </div>
+                </div>
             {% endfor %}
-
-        </table>
+        </div>
     </form>
 
 

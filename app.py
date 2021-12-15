@@ -67,11 +67,6 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route('/collabora')
-def collabora():
-    return render_template("collabora.html")
-
-
 @app.route('/cambia')
 def cambia():
     listaBox = Box.query.filter_by(foodOfferer=session.get('id')).all()
