@@ -4,22 +4,57 @@
     <h1>Carrefour menu</h1>
 
     <form action="/handleConcludi" method="post">
-        <table>
-            <tr><td>Box</td><td>labels</td><td>quantità</td><td>prezzo</td><td>descrizione</td>{% if session.get('email') %}<td>seleziona la quantità</td>{% endif %}</tr>
+        <div class="container">
+            <h2 class="mb-5">Cambia le quantità {{ session.get('email') }}</h2>
+            <div class="row text-center">
+                <div class="col-sm-2">
+                    <h2>Photo</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Box</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Description</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Labels</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>Price</h2>
+                </div>
+                <div class="col-sm-2">
+                    <h2>{% if session.get('email') %}Quantità desiderata{% endif %}</h2>
+                </div>
+            </div>
             {% for Box in listaBox %}
-                <tr><td>{{ Box.boxName }}</td><td>{{ Box.labels }}</td><td>{{ Box.quantity }}</td><td>{{ Box.price }}</td><td>
-                    {{ Box.description }}</td>
-                {% if session.get('email') %}
-                    <td>
-                        <select name='{{ Box.id }}'>
+                <div class="row align-items-center text-center">
+                    <div class="col-sm-2">
+                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" src="">
+                    </div>
+                    <div class="col-sm-2">
+                        <p>{{ Box.boxName }}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="font-weight-light">{{ Box.description }}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="font-weight-light">{{ Box.labels }}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="font-weight-light">{{ Box.price }}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        {% if session.get('email') %}
+                        <select class="form-select" name='{{ Box.id }}'>
                             {% for i in range(Box.quantity + 1) %}
                                 <option value={{ i }}>{{ i }}</option><br>
                             {% endfor %}
                         </select>
-                    </td></tr>
-                {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
             {% endfor %}
-            {% if session.get('email') %}<tr><td><input type="submit" value="Concludi l'ordine"></td>{% endif %}</tr>
-        </table>
+        </div>
+        {% if session.get('email') %}<tr><td><input type="submit" class="btn1 mt-5" value="Concludi l'ordine"></td>{% endif %}</tr>
     </form>
 {% endblock content %}
