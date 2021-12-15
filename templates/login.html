@@ -1,14 +1,46 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>Login</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                    <li class={{ category }}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
-    <form method="POST">
-        <ul>
-            <li>{{ form.email.label }} {{ form.email() }}</li>
-            <li>{{ form.password.label }} {{ form.password() }}</li>
-            {{ form.hidden_tag() }}
-            <li>{{ form.submit() }}</li>
-        </ul>
-    </form>
+    <section class="Form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="../static/images/zeroWaste.jpg" alt="" class="img-fluid">
+          </div>
+          <div class="col-lg-7 px-5 pt-auto">
+            <h4>Sign in to your account</h4>
+            <form method="POST">
+              <div class="form-row">
+                <div class="col-lg-7">
+                  {{ form.email(class='form-control my-2', placeholder='Email address') }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  {{ form.password(class='form-control my-2', placeholder='Password') }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  {{ form.hidden_tag() }}
+                  {{ form.submit(class="btn1 mt-3 mb-5") }}
+                </div>
+              </div>
+              <a class="a1" href="#">Forgot password?</a>
+              <p>Don't have an account? <a class="a1" href="/register">Register here</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 {% endblock content %}
