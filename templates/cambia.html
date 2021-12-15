@@ -5,13 +5,13 @@
         <div class="container">
             <h2 class="mb-5">Cambia le quantità {{ session.get('email') }}</h2>
             <div class="row text-center">
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <h2>Photo</h2>
                 </div>
                 <div class="col-sm-2">
                     <h2>Nome</h2>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <h2>Description</h2>
                 </div>
                 <div class="col-sm-2">
@@ -23,16 +23,19 @@
                 <div class="col-sm-2">
                     <h2>Quantity</h2>
                 </div>
+                <div class="col-sm-2">
+                    <h2>Update</h2>
+                </div>
             </div>
             {% for Box in listaBox %}
                 <div class="row align-items-center text-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                         <img class="immagini-menu mx-auto mb-5 mb-lg-0" src="">
                     </div>
                     <div class="col-sm-2">
                         <p>{{ Box.boxName }}</p>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <p class="font-weight-light">{{ Box.description }}</p>
                     </div>
                     <div class="col-sm-2">
@@ -41,8 +44,11 @@
                     <div class="col-sm-1">
                         <p class="font-weight-light">{{ Box.price }}</p>
                     </div>
+                    <div class="col-sm-2">
+                        <p class="font-weight-light">{{ Box.quantity }}</p>
+                    </div>
                     <div class="col-sm-1">
-                        <input type='text' name='{{ Box.id }}' placeholder="Qty" class="form-control my-2" value=''>
+                        <input type='text' name='{{ Box.id }}' placeholder="qty" class="form-control my-2" value=''>
                     </div>
                     <div class="col-sm-1">
                         <input type="submit" name='submit[{{ Box.id }}]' value="Update" class="btn1">
