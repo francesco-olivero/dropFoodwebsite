@@ -1,8 +1,10 @@
 {% extends "main_theme.html" %}
 
 {% block content %}
-    <h1>Conferma Ordine</h1>
-
-    <p>Grazie per aver effettuato l'ordine!</p>
-    <p>Il costo totale è di: {{ costTot }} e riceverai il tuo ordine all'indirizzo: {{ session.get('address') }}</p>
+    <section class="recensioni">
+        <div class="container">
+            <h1>Ordine effettuato con successo, grazie per averci scelti!</h1>
+            <h3>Il costo totale è di: {{ costTot }} e riceverai il tuo ordine all'indirizzo: {{ session.get('address') }}</h3>
+        </div>
+    </section>
 {% endblock content %}
