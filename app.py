@@ -35,12 +35,16 @@ def homepage():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        utente = User(email=form.email.data, password=form.password.data,
-                      first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, role='utente')
-        db.session.add(utente)
-        db.session.commit()
-        flash("Your account has been created!", 'success')
-        return redirect(url_for('login'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None:
+            utente = User(email=form.email.data, password=form.password.data,
+                          first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, role='utente')
+            db.session.add(utente)
+            db.session.commit()
+            flash("Your account has been created!", 'success')
+            return redirect(url_for('login'))
+        else:
+            flash("utente gia registrato", 'error')
     else:
         print(form.errors)
     return render_template("register.html", form=form)
