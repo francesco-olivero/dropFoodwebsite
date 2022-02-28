@@ -29,7 +29,7 @@
             {% for Box in listaBox %}
                 <div class="row align-items-center text-center">
                     <div class="col-sm-2">
-                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" src="">
+                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" {% set src = "../static/images/" + Box.boxName + ".jpg" %} src={{ src }}>
                     </div>
                     <div class="col-sm-2">
                         <p>{{ Box.boxName }}</p>

@@ -27,7 +27,6 @@ class Box(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)  # per unit
     description = db.Column(db.String, nullable=True)
-
     contenuto = db.relationship('OrderDetails', backref='box')  # 1 to many
 
     def setQuantity(self, qty):
