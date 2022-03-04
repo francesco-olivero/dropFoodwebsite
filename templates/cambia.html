@@ -2,8 +2,10 @@
 
 {% block content %}
     <form action="/handleCambia" method="post">
+        <br>
         <div class="container">
-            <h2 class="mb-5">Cambia le quantità {{ session.get('email') }}</h2>
+            <h2 class="mb-2">Cambia le quantità {{ session.get('email') }}</h2>
+            <br>
             <div class="row text-center">
                 <div class="col-sm-1">
                     <h2>Photo</h2>
@@ -30,7 +32,7 @@
             {% for Box in listaBox %}
                 <div class="row align-items-center text-center">
                     <div class="col-sm-1">
-                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" src="">
+                        <img class="immagini-menu mx-auto mb-5 mb-lg-0" {% set src = "../static/images/" + Box.boxName + ".jpg" %} src={{ src }}>
                     </div>
                     <div class="col-sm-2">
                         <p>{{ Box.boxName }}</p>
@@ -55,6 +57,27 @@
                     </div>
                 </div>
             {% endfor %}
+                <br>
+                <h2 class="mb-2">Aggiungi un box al database</h2>
+                <div class="row justify-content-center align-items-center text-center">
+                <div class="col-2"></div>
+                <div class="col-sm-4">
+                    <input type="text" placeholder="Place" class="form-control my-2">
+                    <input type="text" placeholder="Description" class="form-control my-2">
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" placeholder="Features" class="form-control my-2">
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" placeholder="Price" class="form-control my-2">
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" placeholder="Quantity" class="form-control my-2">
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn1"><a href="#">Update</a></button>
+                </div>
+            </div>
         </div>
     </form>
 

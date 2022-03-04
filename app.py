@@ -46,7 +46,7 @@ def register():
         else:
             flash("utente gia registrato", 'error')
     else:
-        print(form.errors)
+        flash("error", 'error')
     return render_template("register.html", form=form)
 
 
