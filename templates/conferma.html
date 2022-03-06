@@ -4,7 +4,8 @@
     <section class="recensioni">
         <div class="container">
             <h1>Ordine effettuato con successo, grazie per averci scelti!</h1>
-            <h3>Il costo totale è di: {{ costTot }} e riceverai il tuo ordine all'indirizzo: {{ session.get('address') }}</h3>
+            <h3>Il costo totale è di: {{ costTot }} €</h3>
+            <h3>Riceverai il tuo ordine nella fascia oraria selezionata all'indirizzo: {{ session.get('address') }}</h3>
         </div>
     </section>
 {% endblock content %}
